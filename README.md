@@ -1,4 +1,4 @@
-# image_categorization
+# Image Classification app
 
 A new Flutter project.
 
