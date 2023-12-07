@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
-          : Container(
+          : SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
