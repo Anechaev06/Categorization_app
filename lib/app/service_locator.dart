@@ -1,7 +1,4 @@
-// service_locator.dart
-
 import 'package:get_it/get_it.dart';
-
 import 'classification/classification.dart';
 
 final GetIt locator = GetIt.instance;
