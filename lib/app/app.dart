@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_categorization/app/classification/pages/home_page.dart';
+import 'classification/classification.dart';
 import 'core/core.dart';
 
 class App extends StatelessWidget {
@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       title: "Financify",
       theme: AppTheme.theme,
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const ClassificationPage(),
     );
   }
 }

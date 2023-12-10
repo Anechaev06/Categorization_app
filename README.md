@@ -1,4 +1,4 @@
-# Image Classification app
+# classiflow
 
 A new Flutter project.
 

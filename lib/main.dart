@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
-import 'app/app.dart';
+import 'package:classiflow/app/app.dart';
 
-void main() => runApp(const App());
+import 'app/service_locator.dart';
+
+void main() {
+  setupLocator();
+  runApp(const App());
+}
