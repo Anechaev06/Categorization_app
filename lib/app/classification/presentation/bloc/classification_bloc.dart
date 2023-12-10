@@ -7,23 +7,18 @@ class ClassificationBloc
     extends Bloc<ClassificationEvent, ClassificationState> {
   final ClassifyImage classifyImage;
 
-  ClassificationBloc(this.classifyImage) : super(ClassificationInitial());
-
-  Stream<ClassificationState> mapEventToState(
-      ClassificationEvent event) async* {
-    if (event is ClassifyImageEvent) {
-      yield* _mapClassifyImageToState(event);
-    }
+  ClassificationBloc(this.classifyImage) : super(ClassificationInitial()) {
+    on<ClassifyImageEvent>(_onClassifyImageEvent);
   }
 
-  Stream<ClassificationState> _mapClassifyImageToState(
-      ClassifyImageEvent event) async* {
-    yield ClassificationLoading();
+  void _onClassifyImageEvent(
+      ClassifyImageEvent event, Emitter<ClassificationState> emit) async {
+    emit(ClassificationLoading());
     try {
       final classifiedObject = await classifyImage(event.imagePath);
-      yield ClassificationLoaded(classifiedObject);
+      emit(ClassificationLoaded(classifiedObject));
     } catch (e) {
-      yield ClassificationError(e.toString());
+      emit(ClassificationError(e.toString()));
     }
   }
 }

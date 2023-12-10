@@ -1,11 +1,12 @@
+// presentation/widgets/classification_result_widget.dart
+
 import 'package:flutter/material.dart';
 import '../../domain/entities/classified_object.dart';
 
 class ClassificationResultWidget extends StatelessWidget {
   final ClassifiedObject classifiedObject;
 
-  const ClassificationResultWidget({Key? key, required this.classifiedObject})
-      : super(key: key);
+  const ClassificationResultWidget({super.key, required this.classifiedObject});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class ClassificationResultWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           const Text(
             'Classification Results',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,4 +1,6 @@
-import '../../classification.dart';
+import '../../domain/entities/classified_object.dart';
+import '../../domain/repositories/classification_repository.dart';
+import '../datasources/tflite_data_source.dart';
 
 class ClassificationRepositoryImpl implements ClassificationRepository {
   final TFLiteDataSource dataSource;
@@ -7,18 +9,22 @@ class ClassificationRepositoryImpl implements ClassificationRepository {
 
   @override
   Future<ClassifiedObject> classifyImage(String imagePath) async {
-    await dataSource.loadModel('assets/model.tflite');
-    var output = await dataSource.classifyImage(imagePath);
+    try {
+      final output = await dataSource.classifyImage(imagePath);
+      final highestProb =
+          output.reduce((curr, next) => curr > next ? curr : next);
+      final labelIndex = output.indexOf(highestProb);
+      final label = _getLabelForIndex(labelIndex);
+      final confidence = highestProb;
+      return ClassifiedObject(label: label, confidence: confidence);
+    } catch (e) {
+      print('Error during classification: $e');
+      rethrow;
+    }
+  }
 
-    // Assuming the output is a list of probabilities for each class
-    // The following logic should be adjusted based on how your model's output is structured
-    var highestProb = output.reduce((curr, next) => curr > next ? curr : next);
-    var labelIndex = output.indexOf(highestProb);
-
-    // The label for each index should be mapped according to your model's labels
-    String label = "Label for index $labelIndex";
-    double confidence = highestProb;
-
-    return ClassifiedObject(label: label, confidence: confidence);
+  String _getLabelForIndex(int index) {
+    // Implement your logic to map the index to a label here
+    return "Label for index $index";
   }
 }

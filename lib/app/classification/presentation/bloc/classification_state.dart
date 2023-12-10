@@ -1,4 +1,4 @@
-import '../../classification.dart';
+import '../../domain/entities/classified_object.dart';
 
 abstract class ClassificationState {}
 

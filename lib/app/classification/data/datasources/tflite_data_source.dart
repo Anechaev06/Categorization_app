@@ -5,33 +5,51 @@ import 'package:image/image.dart' as img;
 
 class TFLiteDataSource {
   late Interpreter _interpreter;
+  bool _isModelLoaded = false;
 
-  Future<void> loadModel(String modelPath) async {
-    _interpreter = await Interpreter.fromAsset(modelPath);
+  TFLiteDataSource() {
+    _loadModel('assets/model.tflite');
+  }
+
+  Future<void> _loadModel(String modelPath) async {
+    if (!_isModelLoaded) {
+      try {
+        _interpreter = await Interpreter.fromAsset(modelPath);
+        _isModelLoaded = true;
+      } catch (e) {
+        print('Error loading model: $e');
+      }
+    }
   }
 
   Future<List<dynamic>> classifyImage(String imagePath) async {
-    // Load the image using the 'image' package for decoding
-    img.Image image = img.decodeImage(File(imagePath).readAsBytesSync())!;
-    var input = _preprocess(image);
+    try {
+      final image = await _loadAndDecodeImage(imagePath);
+      final input = _preprocess(image);
+      final output = List.generate(1 * 1000, (index) => 0).reshape([1, 1000]);
+      _interpreter.run(input, output);
+      return output;
+    } catch (e) {
+      print('Error during classification: $e');
+      rethrow;
+    }
+  }
 
-    // Create an output buffer
-    var output = List.generate(1 * 1000, (index) => 0)
-        .reshape([1, 1000]); // Adjust based on your model's output
-
-    // Run the interpreter
-    _interpreter.run(input, output);
-
-    return output;
+  Future<img.Image> _loadAndDecodeImage(String imagePath) async {
+    final file = File(imagePath);
+    if (!file.existsSync()) {
+      throw Exception('Image file not found');
+    }
+    final image = img.decodeImage(file.readAsBytesSync());
+    if (image == null) {
+      throw Exception('Failed to decode image');
+    }
+    return image;
   }
 
   Uint8List _preprocess(img.Image image) {
-    // Resize and transform the image for the model input
-    // Adjust the resizing and normalization as per your model's requirements
-    var resizedImg = img.copyResize(image, width: 224, height: 224);
-
-    // Convert the image to a list of bytes (Uint8List)
-    var input = resizedImg.getBytes();
+    final resizedImg = img.copyResize(image, width: 224, height: 224);
+    final input = resizedImg.getBytes();
     return Uint8List.fromList(input);
   }
 }
