@@ -1,16 +1,38 @@
-# classiflow
+# ClassiFlow
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+Classiflow is an innovative mobile application designed for efficient and accurate classification tasks. Leveraging advanced machine learning algorithms, Classiflow offers users a seamless and intuitive way to classify various data types. Developed with Flutter, this app delivers a cross-platform experience, ensuring high performance and a consistent user interface across multiple devices.
 
-This project is a starting point for a Flutter application.
+## Features
+- **Smart Classification:** Utilizes cutting-edge machine learning models to categorize data accurately.
+- **User-Friendly Interface:** Clean and intuitive UI/UX, designed for ease of use.
+- **Cross-Platform Compatibility:** Runs smoothly on both iOS and Android devices.
+- **Real-Time Processing:** Instant classification results with minimal latency.
+- **Customizable Categories:** Users can define and modify classification categories as per their needs.
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone the repository:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    ```bash
+    git clone https://github.com/Anechaev06/ClassiFlow.git
+    ```
+
+2. Navigate to project directory:
+
+    ```bash
+    cd ClassiFlow
+    ```
+
+3. Install dependencies:
+
+    ```bash
+    flutter pub get
+    ```
+
+4. Run the application:
+
+    ```bash
+    flutter run
+    ```
