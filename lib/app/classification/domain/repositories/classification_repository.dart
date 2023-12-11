@@ -1,5 +1,5 @@
-import '../entities/classified_object.dart';
+import '../entities/classified_image.dart';
 
-abstract class ClassificationRepository {
-  Future<ClassifiedObject> classifyImage(String imagePath);
+abstract class ImageClassificationRepository {
+  Future<ClassifiedImage> classifyImage(String imagePath);
 }

@@ -1,24 +1,24 @@
 import 'package:get_it/get_it.dart';
 import 'classification/classification.dart';
 
-final GetIt locator = GetIt.instance;
+final sl = GetIt.instance;
 
 void setupLocator() {
-  // Register services
-  locator.registerLazySingleton<TFLiteDataSource>(() => TFLiteDataSource());
-
-  // Register repositories
-  locator.registerLazySingleton<ClassificationRepository>(
-    () => ClassificationRepositoryImpl(locator()),
+  // Bloc
+  sl.registerFactory(
+    () => ClassificationBloc(classifyImage: sl()),
   );
 
-  // Register use cases
-  locator.registerLazySingleton<ClassifyImage>(
-    () => ClassifyImage(locator()),
+  // Use cases
+  sl.registerLazySingleton(() => ClassifyImage(sl()));
+
+  // Repository
+  sl.registerLazySingleton<ImageClassificationRepository>(
+    () => ImageClassificationRepositoryImpl(sl()),
   );
 
-  // Register BLoC
-  locator.registerFactory(
-    () => ClassificationBloc(locator()),
+  // Data sources
+  sl.registerLazySingleton<TFLiteImageClassifier>(
+    () => TFLiteImageClassifier(),
   );
 }

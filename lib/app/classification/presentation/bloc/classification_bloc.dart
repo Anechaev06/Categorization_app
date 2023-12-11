@@ -7,18 +7,20 @@ class ClassificationBloc
     extends Bloc<ClassificationEvent, ClassificationState> {
   final ClassifyImage classifyImage;
 
-  ClassificationBloc(this.classifyImage) : super(ClassificationInitial()) {
-    on<ClassifyImageEvent>(_onClassifyImageEvent);
+  ClassificationBloc({required this.classifyImage})
+      : super(ClassificationInitial()) {
+    on<SelectImageEvent>(_onSelectImage);
   }
 
-  void _onClassifyImageEvent(
-      ClassifyImageEvent event, Emitter<ClassificationState> emit) async {
+  Future<void> _onSelectImage(
+      SelectImageEvent event, Emitter<ClassificationState> emit) async {
     emit(ClassificationLoading());
     try {
-      final classifiedObject = await classifyImage(event.imagePath);
-      emit(ClassificationLoaded(classifiedObject));
+      final result = await classifyImage.execute(event.imagePath);
+      emit(ClassificationLoaded(result));
     } catch (e) {
-      emit(ClassificationError(e.toString()));
+      emit(ClassificationError(
+          "Error during image classification: ${e.toString()}"));
     }
   }
 }

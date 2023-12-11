@@ -1,28 +1,20 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../domain/entities/classified_object.dart';
+import '../../domain/entities/classified_image.dart';
 
 class ClassificationResultWidget extends StatelessWidget {
-  final ClassifiedObject classifiedObject;
+  final ClassifiedImage classifiedImage;
 
-  const ClassificationResultWidget({super.key, required this.classifiedObject});
+  const ClassificationResultWidget({super.key, required this.classifiedImage});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Classification Results',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text('Label: ${classifiedObject.label}'),
-          const SizedBox(height: 4),
-          Text('Confidence: ${classifiedObject.confidence.toStringAsFixed(2)}'),
-        ],
-      ),
+    return Column(
+      children: [
+        Image.file(File(classifiedImage.imagePath)),
+        Text('Label: ${classifiedImage.label}'),
+        Text('Confidence: ${classifiedImage.confidence.toStringAsFixed(2)}'),
+      ],
     );
   }
 }

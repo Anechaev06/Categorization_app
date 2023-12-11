@@ -1,17 +1,16 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWidget extends StatelessWidget {
-  final Function(File) onImagePicked;
+  final Function(String) onImagePicked;
 
   const ImagePickerWidget({super.key, required this.onImagePicked});
 
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      onImagePicked(File(image.path));
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      onImagePicked(pickedFile.path);
     }
   }
 

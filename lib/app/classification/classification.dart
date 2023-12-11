@@ -1,9 +1,11 @@
-export './data/datasources/tflite_data_source.dart';
-export './data/models/image_model.dart';
-export './data/repositories/classification_repository_impl.dart';
-export './domain/entities/classified_object.dart';
-export './domain/repositories/classification_repository.dart';
-export './domain/usecases/classify_image.dart';
+export 'data/data_sources/tflite_data_source.dart';
+export 'data/models/classified_image_model.dart';
+export 'data/repositories/classification_repository_impl.dart';
+
+export 'domain/entities/classified_image.dart';
+export 'domain/repositories/classification_repository.dart';
+export 'domain/usecases/classify_image.dart';
+
 export './presentation/bloc/classification_bloc.dart';
 export './presentation/bloc/classification_event.dart';
 export './presentation/bloc/classification_state.dart';

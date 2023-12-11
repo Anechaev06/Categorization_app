@@ -1,7 +1,7 @@
 abstract class ClassificationEvent {}
 
-class ClassifyImageEvent extends ClassificationEvent {
+class SelectImageEvent extends ClassificationEvent {
   final String imagePath;
 
-  ClassifyImageEvent(this.imagePath);
+  SelectImageEvent(this.imagePath);
 }

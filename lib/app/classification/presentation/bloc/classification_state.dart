@@ -1,4 +1,4 @@
-import '../../domain/entities/classified_object.dart';
+import '../../classification.dart';
 
 abstract class ClassificationState {}
 
@@ -7,9 +7,9 @@ class ClassificationInitial extends ClassificationState {}
 class ClassificationLoading extends ClassificationState {}
 
 class ClassificationLoaded extends ClassificationState {
-  final ClassifiedObject classifiedObject;
+  final ClassifiedImage classifiedImage;
 
-  ClassificationLoaded(this.classifiedObject);
+  ClassificationLoaded(this.classifiedImage);
 }
 
 class ClassificationError extends ClassificationState {

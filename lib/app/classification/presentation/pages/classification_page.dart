@@ -9,34 +9,39 @@ class ClassificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => locator<ClassificationBloc>(),
+      create: (context) => sl<ClassificationBloc>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Image Classification')),
-        body: BlocConsumer<ClassificationBloc, ClassificationState>(
-          listener: (context, state) {
-            if (state is ClassificationError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              children: [
-                ImagePickerWidget(
-                  onImagePicked: (file) =>
-                      BlocProvider.of<ClassificationBloc>(context)
-                          .add(ClassifyImageEvent(file.path)),
-                ),
-                if (state is ClassificationLoading)
-                  const CircularProgressIndicator(),
-                if (state is ClassificationLoaded)
-                  ClassificationResultWidget(
-                      classifiedObject: state.classifiedObject),
-              ],
-            );
-          },
+        appBar: AppBar(
+          title: const Text('Image Classification'),
         ),
+        body: BlocBuilder<ClassificationBloc, ClassificationState>(
+          builder: (context, state) => _buildStateContent(context, state),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStateContent(BuildContext context, ClassificationState state) {
+    if (state is ClassificationInitial) {
+      return _buildImagePicker(context);
+    } else if (state is ClassificationLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (state is ClassificationLoaded) {
+      return ClassificationResultWidget(classifiedImage: state.classifiedImage);
+    } else if (state is ClassificationError) {
+      return Center(child: Text(state.message));
+    } else {
+      // Logging the unexpected state can be helpful for debugging
+      debugPrint('Unexpected state: $state');
+      return const Center(child: Text('Unexpected state encountered'));
+    }
+  }
+
+  Widget _buildImagePicker(BuildContext context) {
+    return Center(
+      child: ImagePickerWidget(
+        onImagePicked: (path) => BlocProvider.of<ClassificationBloc>(context)
+            .add(SelectImageEvent(path)),
       ),
     );
   }
