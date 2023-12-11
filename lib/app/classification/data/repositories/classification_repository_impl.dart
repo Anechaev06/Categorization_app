@@ -18,13 +18,13 @@ class ClassificationRepositoryImpl implements ClassificationRepository {
       final confidence = highestProb;
       return ClassifiedObject(label: label, confidence: confidence);
     } catch (e) {
-      print('Error during classification: $e');
-      rethrow;
+      throw Exception('Error in classification repository: $e');
     }
   }
 
   String _getLabelForIndex(int index) {
-    // Implement your logic to map the index to a label here
-    return "Label for index $index";
+    // Implement this method based on how you want to map index to label
+    // Example: return labels[index];
+    return 'Label for index $index'; // Placeholder implementation
   }
 }

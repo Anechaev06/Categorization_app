@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 
 class TFLiteDataSource {
-  late Interpreter _interpreter;
+  Interpreter? _interpreter;
   bool _isModelLoaded = false;
 
   TFLiteDataSource() {
@@ -23,11 +23,15 @@ class TFLiteDataSource {
   }
 
   Future<List<dynamic>> classifyImage(String imagePath) async {
+    if (!_isModelLoaded) {
+      throw Exception('Model not loaded');
+    }
+
     try {
       final image = await _loadAndDecodeImage(imagePath);
       final input = _preprocess(image);
-      final output = List.generate(1 * 1000, (index) => 0).reshape([1, 1000]);
-      _interpreter.run(input, output);
+      var output = List.filled(1 * 1000, 0).reshape([1, 1000]);
+      _interpreter!.run(input, output);
       return output;
     } catch (e) {
       print('Error during classification: $e');
@@ -37,10 +41,11 @@ class TFLiteDataSource {
 
   Future<img.Image> _loadAndDecodeImage(String imagePath) async {
     final file = File(imagePath);
-    if (!file.existsSync()) {
+    if (!await file.exists()) {
       throw Exception('Image file not found');
     }
-    final image = img.decodeImage(file.readAsBytesSync());
+    final bytes = await file.readAsBytes();
+    final image = img.decodeImage(bytes);
     if (image == null) {
       throw Exception('Failed to decode image');
     }
@@ -49,7 +54,6 @@ class TFLiteDataSource {
 
   Uint8List _preprocess(img.Image image) {
     final resizedImg = img.copyResize(image, width: 224, height: 224);
-    final input = resizedImg.getBytes();
-    return Uint8List.fromList(input);
+    return Uint8List.fromList(img.encodeJpg(resizedImg));
   }
 }

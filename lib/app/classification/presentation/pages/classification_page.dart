@@ -28,7 +28,8 @@ class ClassificationPage extends StatelessWidget {
                       BlocProvider.of<ClassificationBloc>(context)
                           .add(ClassifyImageEvent(file.path)),
                 ),
-                if (state is ClassificationLoading) CircularProgressIndicator(),
+                if (state is ClassificationLoading)
+                  const CircularProgressIndicator(),
                 if (state is ClassificationLoaded)
                   ClassificationResultWidget(
                       classifiedObject: state.classifiedObject),

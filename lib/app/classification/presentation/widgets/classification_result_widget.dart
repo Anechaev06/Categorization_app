@@ -1,5 +1,3 @@
-// presentation/widgets/classification_result_widget.dart
-
 import 'package:flutter/material.dart';
 import '../../domain/entities/classified_object.dart';
 
